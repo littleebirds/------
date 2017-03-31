@@ -19,23 +19,23 @@
 回调都会*异步*的依次被立即执行    
 
  
-    var  p3=new Promise(function(resolve,reject){
-               resolve('B')
-    })
-    var p1=new Promise(function(resolve,reject){
-               resolve(p3)
-    })
-    var p2=new Promise(function(resolve,reject){
-               resolve('A')
-    })
-    p1.then(function(v){
-        console.log(v)
-    })
-    p2.then(function(v){
-        console.log(v)
-    })
-    
-    //结果输出：A B
+            var  p3=new Promise(function(resolve,reject){
+                       resolve('B')
+            })
+            var p1=new Promise(function(resolve,reject){
+                       resolve(p3)
+            })
+            var p2=new Promise(function(resolve,reject){
+                       resolve('A')
+            })
+            p1.then(function(v){
+                console.log(v)
+            })
+            p2.then(function(v){
+                console.log(v)
+            })
+
+            //结果输出：A B
 
 + p1的回调和 p2的回调是相对独立的，但由于p1的决议传给了p3也使得速度相对p2落后
   所以会先输出A，在输出B
