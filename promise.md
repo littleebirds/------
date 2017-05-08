@@ -3,8 +3,8 @@
 ###### 调用过早    
 
 ###### 调用过晚    
-
-        p.then(function(){
+        ···javascript
+        p.then(function(){
             p.then(function(){
             console.log('C')
             })   
@@ -14,6 +14,8 @@
             console.log('B')
          })
         //结果输出：A B C
+        ···javascript
+
         
 + 因为在一个promise决议之后，这个promise上所有的注册的then        
 回调都会*异步*的依次被立即执行    
