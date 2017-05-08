@@ -16,11 +16,12 @@
          console.log('B')
       })
      //结果输出：A B C
+```
 
 + 因为在一个promise决议之后，这个promise上所有的注册的then        
 回调都会*异步*的依次被立即执行    
 
- 
+ ```javascript
             var  p3=new Promise(function(resolve,reject){
                        resolve('B')
             })
@@ -38,7 +39,7 @@
             })
 
             //结果输出：A B
-
+```
 + p1的回调和 p2的回调是相对独立的，但由于p1的决议传给了p3也使得速度相对p2落后
   所以会先输出A，在输出B
   
@@ -48,7 +49,7 @@
 
 + 首先没有任何东西能阻止promise的决议    
 
-   
+```javascript
         //用于超时一个promise的工具
         function timeoutPromise(delay){
             return new Promise(function(resolve,reject){
@@ -69,7 +70,7 @@
             //foo()或是未在3000ms内及时完成，或是被拒绝
             //查看err来了解哪种情况
          })
-        
+```     
         
 ###### 调用次数过少或者过度    
 
@@ -86,7 +87,7 @@
    如果需要传递多个值，则需要封装为单个值，数组或者对象    
    
 ###### 吞掉错误或异常
-    
+ ```javascript   
     var p=new Promise(function (resolve,reject) {
         foo.bar();  //foo未定义，这里会出错
         resolve(42)
@@ -96,10 +97,11 @@
     },function rejected(err) {
         console.log('error'+err)//捕捉err来自  foo.bar()这一行
     })
+ ```
     
 + 另一个问题
     
-    
+```javascript    
         var p=new Promise(function (resolve,reject) {
             resolve(42)
         });
@@ -109,12 +111,12 @@
         },function rejected(err) {
             console.log('error'+err)//捕捉err来自  foo.bar()这一行
         })
-    
+ ```   
    回调里产生了错误（foo.bar() foo未定义），这里的错误不是被吞掉了，而是会被返回的新的promise所捕捉到
    
 ###### 是可信任的Promise吗？
    如果向promise.resolve()传递一个非promise，就会得到一个用这个值填充的promise
-   
+```javascript   
         var p1=new Promise(function(resolve,reject){
             resolve(42)
         })
@@ -167,7 +169,7 @@
             }
         );
         //所以 thenable 并不是一个真正的promise,所以是不能信任的
-        
+```        
 ###### 建立信任
 
 
@@ -178,7 +180,7 @@
 + 不管从then()调用的完成回调（第一个参数）返回的值是什么，它都会自动设置为被链接  
   Promise(第一点中的)完成
   
-
+```javascript
          var p=Promise.resolve(21);
 
          var p2=p.then(function (v) {
@@ -253,9 +255,9 @@
             .then((response2)=>{
                 console.log(response2)
             })
-    
+```    
 #### 错误处理
-
+```javascript
     function foo() {
         setTimeout(()=>{
             baz.bar()
@@ -306,12 +308,12 @@
     },function rejected(err){
         //用元不会到达这里
     })
-    
+```    
 ###### 绝望的陷阱
 
 + 使用catch捕捉错误
 
-
+```javascript
         var p=Promise.resolve(42)
         p.then(function fulfilled(v){
             console.log(v.toLowerCase());   //数字没有String函数，会报错
@@ -322,7 +324,7 @@
         })
 
         //或者也可以在后面的写个then，可以捕捉到错误
-
+```
 ###### 处理未捕获的情况
     
     
@@ -336,7 +338,7 @@
     
 + 同时执行多个操作，不论顺序如何，全部完成之后进行下一步操作
 
-
+```javascript
         eg.
            //假设request是个promise-awar Ajax工具
            var p1=request('http://some.url.1/');
@@ -353,6 +355,7 @@
            .then((msg)=>{
                 console.log(msg);
            })
+ ```
  Promise.all([..]) 需要一个参数，是一个数组，通常由promise组成
  
  ######Promise.race([])
@@ -360,7 +363,7 @@
  + 也称为竞态，尽管Promise.race([]) 协调多个并发的promise的运行，并假定所有Promise    
  都需要完成，但有时候你会想只想赢‘第一个跨过终点线的Promise’,而抛弃其他的Promise
  
-     
+```javascript     
         var p1=request('http://some.url.1/');
         var p2=request('http://some.url.2/');
 
@@ -372,10 +375,10 @@
         .then((msg)=>{
             console.log(msg)
         })
-
+```
  + 超时竞赛
     
-
+```javascript
         Promise.race([
             foo(),
             timeoutPromise()
@@ -386,11 +389,11 @@
             //或者foo()被拒绝，或者未按时完成
             //故查看err是哪种错误
         })
-    
+ ```   
  + finally
     
 有些开发者提出Promise 需要一个finally的回调注册，在Promise决议后总是会被调用，并且允许执行任何必要的清理工作
-    
+ ```javascript   
     //类似这样
     var p=Promise.resolve(42);
     
@@ -398,7 +401,7 @@
      .finally(cleanup)
      .then(something)
      .finally(cleanup)
-
+```
 ###### all()和race()的变体
 
 + none([])  所有的promise被拒绝后，才转化为完成值
@@ -409,7 +412,7 @@
 ###### 并发迭代
 
 有时候会需要在一列Promise中迭代，并对所有的promise都执行某个任务，类似于数组的（forEach,map,some,every）
-
+```javascript
     if(!Promise.map){
         Promise.map=function(value,cb){
             return Promise.all(
@@ -421,7 +424,7 @@
             )
         }
     }
-    
+ 
     //应用
     var p1=Promise.resolve(21);
     var p2=Promise.resolve(42);
@@ -438,7 +441,7 @@
     .then(function(val){
         console.log(val)
     })
-    
+  ```  
 #### Promise局限性
 
 ###### 顺序错误处理
