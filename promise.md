@@ -2,7 +2,8 @@
 
 ###### 调用过早    
 
-###### 调用过晚    
+###### 调用过晚  
+
         ···javascript
         p.then(function(){
             p.then(function(){
