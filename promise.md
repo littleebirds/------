@@ -4,7 +4,7 @@
 
 ###### 调用过晚  
 
-        ···javascript
+        ```javascript
         p.then(function(){
             p.then(function(){
             console.log('C')
@@ -15,7 +15,7 @@
             console.log('B')
          })
         //结果输出：A B C
-        ···javascript
+        ```javascript
 
         
 + 因为在一个promise决议之后，这个promise上所有的注册的then        
